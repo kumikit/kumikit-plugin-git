@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["rev"],
+  "properties": {
+    "rev": { "type": "string", "minLength": 1, "description": "Revision, branch, tag or commit hash." },
+    "path": { "type": "string", "minLength": 1, "description": "Optional repository-relative file path to show at that revision." }
+  }
+}

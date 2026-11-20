@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "path": { "type": "string", "minLength": 1, "description": "Optional repository-relative file path." },
+    "staged": { "type": "boolean", "description": "Show staged (--cached) changes instead of unstaged changes." }
+  }
+}

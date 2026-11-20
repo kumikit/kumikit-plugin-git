@@ -1,0 +1,6 @@
+/target
+*.kkp
+ui-git/node_modules
+ui-git/package/dist
+ui-git/test-results
+ui-git/playwright-report

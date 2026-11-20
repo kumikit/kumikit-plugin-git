@@ -1,0 +1,58 @@
+# Read-only Git tools (via Kumikit's MCP tool gateway) and workspace methods for `kumikit.ui-git`.
+id = "kumikit.git"
+name = "Git"
+version = "0.1.0"
+description = "Read-only Git status, diff, log, show and branches tools for agents and the Changes panel."
+license = "MIT"
+repository = "https://github.com/kumikit/kumikit-plugin-git"
+kind = ["tool", "integration"]
+api = "^0.2"
+
+[runtime]
+wasm = "plugin.wasm"
+worlds = ["kumikit:tool/plugin@0.1.0"]
+
+[permissions]
+spawn = ["git"]
+
+[contributes]
+methods = [
+  { name = "status", scope = "workspace" },
+  { name = "diff", scope = "workspace" },
+  { name = "log", scope = "workspace" },
+]
+
+[[contributes.tools]]
+name = "status"
+title = "Git status"
+description = "Changed, staged and untracked files in the workspace."
+input = "tools/status.schema.json"
+effect = "read"
+
+[[contributes.tools]]
+name = "diff"
+title = "Git diff"
+description = "Unified diff of working tree or staged changes in the workspace."
+input = "tools/diff.schema.json"
+effect = "read"
+
+[[contributes.tools]]
+name = "log"
+title = "Git log"
+description = "Recent commits in the workspace repository."
+input = "tools/log.schema.json"
+effect = "read"
+
+[[contributes.tools]]
+name = "show"
+title = "Git show"
+description = "Commit details or a file's contents at a revision."
+input = "tools/show.schema.json"
+effect = "read"
+
+[[contributes.tools]]
+name = "branches"
+title = "Git branches"
+description = "Local branches and the current HEAD."
+input = "tools/branches.schema.json"
+effect = "read"
