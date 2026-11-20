@@ -1,0 +1,20 @@
+# Sandboxed Level 2 panel for Git changes (docs/spec/07-ui-plugins.md, ADR 0019).
+id = "kumikit.ui-git"
+name = "Git Changes"
+version = "0.1.0"
+description = "Inspector panel showing changed files, unified diffs and recent commits from kumikit.git."
+license = "MIT"
+repository = "https://github.com/kumikit/kumikit-plugin-git"
+kind = ["ui"]
+api = "^0.1.2"
+
+[requires]
+core = ["kumikit.git@^0.1"]
+
+[ui]
+entry = "index.html"
+isolation = "iframe"
+network = []
+
+[contributes]
+slots = [{ slot = "inspector.tab", id = "changes", title = "Changes" }]

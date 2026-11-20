@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+  KUMIKIT_REV: c09e83d596c1eebbed7e574187f7fcd608e51efa
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: kumikit/kumikit
+          ref: ${{ env.KUMIKIT_REV }}
+          path: _kumikit
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: |
+            .
+            _kumikit
+      - name: Rust format, clippy (native and wasm32-wasip2) and unit tests
+        run: |
+          cargo fmt --check
+          cargo clippy --workspace --all-targets -- -D warnings
+          cargo clippy --target wasm32-wasip2 -p kumikit-git -- -D warnings
+          cargo test -p kumikit-git
+      - name: Build kumikit.git WASM
+        run: cargo build --target wasm32-wasip2 --release -p kumikit-git
+      - name: Build and test kumikit.ui-git panel
+        working-directory: ui-git
+        env:
+          KUMIKIT_UI_SDK: ${{ github.workspace }}/_kumikit/web/sdk
+        run: |
+          npm ci
+          npm test
+          npm run build
+      - name: Build pinned kumikit core and test plugins
+        working-directory: _kumikit
+        run: cargo build -p kumikit-core -p kumikit-test-plugins
+      - name: End-to-end tests (kumikit.git + kumikit.ui-git pack)
+        env:
+          KUMIKIT_DIR: ${{ github.workspace }}/_kumikit
+        run: |
+          cargo test -p kumikit-git-e2e
+          _kumikit/target/debug/kumikit plugin pack ui-git/package -o ui-git.kkp

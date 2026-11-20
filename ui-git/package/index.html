@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Changes</title>
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <header class="bar">
+    <span id="branch" class="branch">Loading…</span>
+    <button id="refresh" type="button" class="btn">Refresh</button>
+  </header>
+  <main class="content">
+    <section class="section" aria-label="Changed files">
+      <h2 class="heading">Changed files</h2>
+      <ul id="files" class="list"></ul>
+    </section>
+    <section class="section" aria-label="Diff">
+      <h2 id="diff-title" class="heading">Diff</h2>
+      <div id="diff" class="diff"></div>
+    </section>
+    <section class="section" aria-label="Recent commits">
+      <h2 class="heading">Recent commits</h2>
+      <ul id="commits" class="list"></ul>
+    </section>
+  </main>
+  <script type="module" src="dist/panel.js"></script>
+</body>
+</html>
