@@ -1,7 +1,7 @@
 # Read-only Git tools (via Kumikit's MCP tool gateway) and workspace methods for `kumikit.ui-git`.
 id = "kumikit.git"
 name = "Git"
-version = "0.1.0"
+version = "0.1.1"
 description = "Read-only Git status, diff, log, show and branches tools for agents and the Changes panel."
 license = "MIT"
 repository = "https://github.com/kumikit/kumikit-plugin-git"
