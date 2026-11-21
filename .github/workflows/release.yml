@@ -14,9 +14,7 @@ concurrency:
 
 env:
   CARGO_TERM_COLOR: always
-  KUMIKIT_TAG: v0.1.0-m5
   PUBLISHER_KEY: ed25519:00Ji-S866EV-IwRItk9Gk-M5N--4nvBzbbqvT6MRNNg
-  RUST: 1.100.0
 
 jobs:
   detect:
@@ -58,24 +56,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/checkout@v4
-        with:
-          repository: kumikit/kumikit
-          ref: ${{ env.KUMIKIT_TAG }}
-          path: _kumikit
       - uses: actions/setup-node@v4
         with:
           node-version: 24
       - uses: Swatinem/rust-cache@v2
-      - uses: actions/cache@v4
+      - uses: kumikit/kumikit/.github/actions/setup-kumikit@v0.1.0-m5.1
         with:
-          path: ~/.cargo/bin/kumikit
-          key: kumikit-cli-${{ env.KUMIKIT_TAG }}-${{ env.RUST }}
-      - name: Install kumikit CLI
-        run: |
-          if [ ! -x ~/.cargo/bin/kumikit ]; then
-            cargo +"$RUST" install --locked --git https://github.com/kumikit/kumikit --tag "$KUMIKIT_TAG" kumikit-core
-          fi
+          tools: kumikit,test-kit
       - name: Build kumikit.git WASM (if releasing)
         env:
           PLUGINS: ${{ needs.detect.outputs.plugins }}
@@ -89,7 +76,6 @@ jobs:
       - name: Build kumikit.ui-git panel (if releasing)
         env:
           PLUGINS: ${{ needs.detect.outputs.plugins }}
-          KUMIKIT_UI_SDK: ${{ github.workspace }}/_kumikit/web/sdk
         run: |
           case " $PLUGINS " in
             *" kumikit.ui-git "*)
@@ -109,10 +95,10 @@ jobs:
             exit 1
           fi
           # shellcheck disable=SC2086
-          KUMIKIT_BIN="$HOME/.cargo/bin/kumikit" sh scripts/pack.sh dist $PLUGINS
+          sh scripts/pack.sh dist $PLUGINS
           for f in dist/*.kkp; do
-            "$HOME/.cargo/bin/kumikit" plugin sign "$f"
-            "$HOME/.cargo/bin/kumikit" plugin verify --key "$PUBLISHER_KEY" "$f"
+            kumikit plugin sign "$f"
+            kumikit plugin verify --key "$PUBLISHER_KEY" "$f"
           done
       - name: Tag and create GitHub Releases
         env:
