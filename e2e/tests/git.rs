@@ -163,7 +163,7 @@ impl Core {
         };
         c.call(
             "core.hello",
-            json!({ "protocol": "0.7", "client": { "name": "kumikit-git-e2e", "version": "0" } }),
+            json!({ "protocol": "0.8", "client": { "name": "kumikit-git-e2e", "version": "0" } }),
         );
         c
     }
