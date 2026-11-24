@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: 24
       - uses: Swatinem/rust-cache@v2
-      - uses: kumikit/kumikit/.github/actions/setup-kumikit@v0.1.0-m5.1
+      - uses: kumikit/kumikit/.github/actions/setup-kumikit@v0.1.0-m7.1
         with:
           tools: kumikit,test-kit
       - name: Rust format, clippy (native and wasm32-wasip2) and unit tests
